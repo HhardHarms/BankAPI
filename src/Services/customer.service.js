@@ -1,39 +1,68 @@
+const connection = require("./db");
 class CustomerService {
-  getCustomers() {
-    return [
-      {
-        id: 1,
-        name: "Adams",
-      },
-      {
-        id: 2,
-        name: "Godwin",
-      },
-      {
-        id: 3,
-        name: "Ndem",
-      },
-    ];
+  async getCustomers() {
+    return new Promise((resolve, reject) => {
+      connection.query("SELECT * FROM customers", function (err, data, fields) {
+        if (err) return reject(err);
+        return resolve(data);
+      });
+    });
   }
 
-  getCustomer() {
-    return [
-      {
-        id: 1,
-        name: "Adams",
-      },
-    ];
+  async getCustomer(id) {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "SELECT * FROM customers WHERE ID = ?",
+        "UPDATE "[id],
+        function (err, data, fields) {
+          if (err) return reject(err);
+          return resolve(data);
+        }
+      );
+    });
+    // return [
+    //   {
+    //     id: 1,
+    //     name: "Adams",
+    //   },
+    // ];
   }
 
-  updateCustomer() {
-    return {
-      id: 1,
-      name: "Adams Kendricks",
-    };
+  // updateCustomer() {
+  //   return {
+  //     id: 1,
+  //     name: "Adams Kendricks",
+  //   };
+  // }
+
+  async updateCustomer(id, newData) {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "UPDATE customers SET ? WHERE ID = ?",
+        [newData, id],
+        function (err, data, fields) {
+          if (err) return reject(err);
+          return resolve(data);
+        }
+      );
+    });
   }
 
-  deleteCustomer() {
-    return "Customer deleted";
+  // deleteCustomer() {
+  //   return "Customer deleted";
+  // }
+
+  async deleteCustomer(id) {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "DELETE FROM customers WHERE ID = ?",
+        [id],
+        function (err, data, fields) {
+          if (err) return reject(err);
+          return resolve(data);
+        }
+      );
+    });
   }
 }
 

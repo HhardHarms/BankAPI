@@ -4,6 +4,8 @@ const port = 8080;
 const customerRoutes = require("./Routes/customer.routes");
 const app = express();
 
+const db = require("./Services/db");
+
 app.use(express.json());
 app.use("/api/customers", customerRoutes);
 
